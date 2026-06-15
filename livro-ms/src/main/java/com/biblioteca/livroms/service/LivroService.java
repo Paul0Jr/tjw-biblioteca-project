@@ -1,9 +1,10 @@
 package com.biblioteca.livroms.service;
 
 import com.biblioteca.livroms.repository.LivroRepository;
-import com.biblioteca.livroms.dto.LivroRequest;
-import com.biblioteca.livroms.dto.LivroResponse;
+import com.biblioteca.livroms.dto.*;
 import com.biblioteca.livroms.entity.Livro;
+import com.biblioteca.livroms.exception.BusinessException;
+import com.biblioteca.livroms.exception.ResourceNotFoundException;
 
 import java.util.List;
 
