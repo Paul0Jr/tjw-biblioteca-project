@@ -6,41 +6,34 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Table(name = "livro")
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Livro {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 150)
     private String titulo;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 60)
     private String genero;
 
     @Column(nullable = false)
-    private int ano_publicacao;
+    private Integer anoPublicacao;
 
     @Column(nullable = false)
-    private boolean disponivel;
+    private Boolean disponivel;
 
     @Column(nullable = false)
-    private Long autor_id;
-
-    public Livro() {
-    }
-
-    public Livro(String titulo, String genero, int ano_publicacao, boolean disponivel, Long autor_id) {
-        this.titulo = titulo;
-        this.genero = genero;
-        this.ano_publicacao = ano_publicacao;
-        this.disponivel = disponivel;
-        this.autor_id = autor_id;
-    }
+    private Long autorId;
 }
