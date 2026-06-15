@@ -24,15 +24,26 @@ public class LivroService implements ILivroService {
         return livroRepository.findAll().stream().map(this::toResponse).toList();
     }
 
+    public List<LivroResponse> listarPorDisponibilidade(Boolean disponivel) {
+        if (disponivel == null) {
+            return listar();
+        }
+        return livroRepository.findByDisponivel(disponivel)
+                .stream()
+                .map(this::toResponse)
+                .toList();
+    }
+
     public LivroResponse buscarPorId(Long id) {
         return toResponse(obterEntidade(id));
     }
 
     @Transactional
     public LivroResponse criar(LivroRequest request) {
-        if (livroRepository.existBytitulo(request.titulo())) {
-            throw new BusinessException("Já existe um livro com o título informado");
-        }
+        livroRepository.findByTitulo(request.titulo())
+                .ifPresent(outro -> {
+                    throw new BusinessException("Já existe um livro com o título informado");
+                });
 
         Livro livro = new Livro();
         preencher(livro, request);
@@ -67,9 +78,9 @@ public class LivroService implements ILivroService {
     private void preencher(Livro livro, LivroRequest request) {
         livro.setTitulo(request.titulo());
         livro.setGenero(request.genero());
-        livro.setAno_publicacao(request.ano_publicacao());
+        livro.setAnoPublicacao(request.anoPublicacao());
         livro.setDisponivel(request.disponivel());
-        livro.setAutor_id(request.autor_id());
+        livro.setAutorId(request.autorId());
     }
 
     private LivroResponse toResponse(Livro livro) {
@@ -77,9 +88,9 @@ public class LivroService implements ILivroService {
                 livro.getId(),
                 livro.getTitulo(),
                 livro.getGenero(),
-                livro.getAno_publicacao(),
-                livro.isDisponivel(),
-                livro.getAutor_id()
+                livro.getAnoPublicacao(),
+                livro.getDisponivel(),
+                livro.getAutorId()
         );
     }
 }
