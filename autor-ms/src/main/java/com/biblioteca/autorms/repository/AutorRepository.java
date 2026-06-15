@@ -9,8 +9,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AutorRepository extends JpaRepository<Autor, Long> {
-    boolean existsById(Long id);
-    boolean existByNome(String titulo);
-    Optional<Autor> findByNome(String titulo);
-
+    boolean existsByNome(String nome);
+    Optional<Autor> findByNome(String nome);
 }
