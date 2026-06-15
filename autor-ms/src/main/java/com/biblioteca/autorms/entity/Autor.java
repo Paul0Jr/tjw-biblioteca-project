@@ -6,11 +6,16 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 
 @Entity
 @Table(name = "autor")
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 public class Autor {
@@ -25,14 +30,5 @@ public class Autor {
     private String nacionalidade;
 
     @Column(nullable = false)
-    private int ano_nascimento;
-
-    public Autor() {
-    }
-
-    public Autor(String nome, String nacionalidade, int ano_nascimento) {
-        this.nome = nome;
-        this.nacionalidade = nacionalidade;
-        this.ano_nascimento = ano_nascimento;
-    }
+    private Integer anoNascimento;
 }
