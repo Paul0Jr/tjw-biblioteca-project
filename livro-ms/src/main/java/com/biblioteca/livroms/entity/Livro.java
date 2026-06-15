@@ -1,8 +1,6 @@
 package com.biblioteca.livroms.entity;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.*;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,7 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "student")
+@Table(name = "livro")
 @Getter
 @Setter
 public class Livro {
