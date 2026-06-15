@@ -14,10 +14,16 @@ target/
 .sts4-cache
 
 ### IntelliJ IDEA ###
-autor-ms/.idea
 *.iws
 *.iml
 *.ipr
+.idea/
+.idea/shelf/
+.idea/workspace.xml
+.idea/httpRequests/
+.idea/queries/
+.idea/dataSources/
+.idea/dataSources.local.xml
 
 ### NetBeans ###
 /nbproject/private/
@@ -31,6 +37,5 @@ build/
 
 ### VS Code ###
 .vscode/
-s
 
 .idea/
