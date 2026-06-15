@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,15 +27,18 @@ public class LivroController {
         this.livroService = livroService;
     }
 
+
     @GetMapping
-    public List<LivroResponse> listar() {
-        return livroService.listar();
+    public List<LivroResponse> listar(@RequestParam(required = false) Boolean disponivel) {
+        return livroService.listarPorDisponibilidade(disponivel);
     }
+
 
     @GetMapping("/{id}")
     public LivroResponse buscarPorId(@PathVariable Long id) {
         return livroService.buscarPorId(id);
     }
+
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -42,10 +46,12 @@ public class LivroController {
         return livroService.criar(request);
     }
 
+
     @PutMapping("/{id}")
     public LivroResponse atualizar(@PathVariable Long id, @Valid @RequestBody LivroRequest request) {
         return livroService.atualizar(id, request);
     }
+
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
