@@ -4,8 +4,8 @@ public record LivroResponse(
         Long id,
         String titulo,
         String genero,
-        int ano_publicacao,
-        boolean disponivel,
-        Long autor_id
+        Integer anoPublicacao,
+        Boolean disponivel,
+        Long autorId
 ) {
 }

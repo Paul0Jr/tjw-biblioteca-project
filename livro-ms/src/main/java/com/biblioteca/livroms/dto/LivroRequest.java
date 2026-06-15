@@ -1,23 +1,28 @@
 package com.biblioteca.livroms.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
 public record LivroRequest(
         @NotBlank(message = "Título obrigatório")
+        @Size(max = 150, message = "Título não pode exceder 150 caracteres")
         String titulo,
 
         @NotBlank(message = "Gênero obrigatório")
+        @Size(max = 60, message = "Gênero não pode exceder 60 caracteres")
         String genero,
 
-        @NotBlank(message = "Ano de publicação obrigatório")
-        @Size ( min = 0, max = 4 , message = " Ano de publicação deve possuir apenas 4 dígitos")
-        int ano_publicacao,
+        @NotNull(message = "Ano de publicação obrigatório")
+        @Positive(message = "Ano de publicação deve ser um número positivo")
+        Integer anoPublicacao,
 
-        @NotBlank(message = "Disponibilidade(?) obrigatória")
-        boolean disponivel,
+        @NotNull(message = "Disponibilidade obrigatória")
+        Boolean disponivel,
 
-        @NotBlank(message = "Autor obrigatório")
-        Long autor_id
+        @NotNull(message = "ID do autor obrigatório")
+        @Positive(message = "ID do autor deve ser um número positivo")
+        Long autorId
 ) {
 }
