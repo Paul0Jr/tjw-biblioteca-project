@@ -11,7 +11,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
+@Service
 public class AutorService implements IAutorService {
 
     private final AutorRepository autorRepository;
@@ -30,7 +30,7 @@ public class AutorService implements IAutorService {
 
     @Transactional
     public AutorResponse criar(AutorRequest request) {
-        if (autorRepository.existByNome(request.nome())) {
+        if (autorRepository.existsByNome(request.nome())) {
             throw new BusinessException("Já existe um autor com o nome informado");
         }
 
@@ -67,7 +67,7 @@ public class AutorService implements IAutorService {
     private void preencher(Autor autor, AutorRequest request) {
         autor.setNome(request.nome());
         autor.setNacionalidade(request.nacionalidade());
-        autor.setAno_nascimento(request.ano_nascimento());
+        autor.setAnoNascimento(request.anoNascimento());
     }
 
     private AutorResponse toResponse(Autor autor) {
@@ -75,7 +75,7 @@ public class AutorService implements IAutorService {
                 autor.getId(),
                 autor.getNome(),
                 autor.getNacionalidade(),
-                autor.getAno_nascimento()
+                autor.getAnoNascimento()
         );
     }
 }

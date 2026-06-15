@@ -3,9 +3,9 @@ import com.biblioteca.autorms.dto.AutorRequest;
 import com.biblioteca.autorms.dto.AutorResponse;
 
 public interface IAutorService {
-    public AutorResponse criar(AutorRequest request);
-    public AutorResponse atualizar(Long id, AutorRequest request);
-    public void excluir(Long id);
-    public AutorResponse buscarPorId(Long id);
-    public java.util.List<AutorResponse> listar();
+    AutorResponse criar(AutorRequest request);
+    AutorResponse atualizar(Long id, AutorRequest request);
+    void excluir(Long id);
+    AutorResponse buscarPorId(Long id);
+    java.util.List<AutorResponse> listar();
 }
