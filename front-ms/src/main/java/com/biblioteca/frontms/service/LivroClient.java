@@ -18,9 +18,15 @@ public class LivroClient implements ILivroClient {
         this.restClient = builder.baseUrl(baseUrl).build();
     }
 
-    public List<LivroResponse> listar() {
+    public List<LivroResponse> listar(Boolean disponivel) {
         return restClient.get()
-                .uri("/api/livros")
+                .uri(uriBuilder -> {
+                    var builder = uriBuilder.path("/api/livros");
+                    if (disponivel != null) {
+                        builder.queryParam("disponivel", disponivel);
+                    }
+                    return builder.build();
+                })
                 .retrieve()
                 .body(new ParameterizedTypeReference<>() {});
     }
@@ -42,7 +48,7 @@ public class LivroClient implements ILivroClient {
 
     public LivroResponse atualizarLivro(Long id, LivroForm form) {
         return restClient.put()
-                .uri("/api/livro/{id}", id)
+                .uri("/api/livros/{id}", id)
                 .body(form)
                 .retrieve()
                 .body(LivroResponse.class);

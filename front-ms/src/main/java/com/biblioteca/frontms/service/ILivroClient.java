@@ -6,7 +6,7 @@ import com.biblioteca.frontms.dto.LivroResponse;
 import java.util.List;
 
 public interface ILivroClient {
-    List<LivroResponse> listar();
+    List<LivroResponse> listar(Boolean disponivel);
     LivroResponse livroById(Long id);
     LivroResponse criarLivro(LivroForm livroForm);
     LivroResponse atualizarLivro(Long id, LivroForm livroForm);
