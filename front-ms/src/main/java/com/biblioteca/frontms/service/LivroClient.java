@@ -18,6 +18,7 @@ public class LivroClient implements ILivroClient {
         this.restClient = builder.baseUrl(baseUrl).build();
     }
 
+    @Override
     public List<LivroResponse> listar(Boolean disponivel) {
         return restClient.get()
                 .uri(uriBuilder -> {
@@ -31,6 +32,7 @@ public class LivroClient implements ILivroClient {
                 .body(new ParameterizedTypeReference<>() {});
     }
 
+    @Override
     public LivroResponse livroById(Long id) {
         return restClient.get()
                 .uri("/api/livros/{id}", id)
@@ -38,6 +40,7 @@ public class LivroClient implements ILivroClient {
                 .body(LivroResponse.class);
     }
 
+    @Override
     public LivroResponse criarLivro(LivroForm form) {
         return restClient.post()
                 .uri("/api/livros")
@@ -46,6 +49,7 @@ public class LivroClient implements ILivroClient {
                 .body(LivroResponse.class);
     }
 
+    @Override
     public LivroResponse atualizarLivro(Long id, LivroForm form) {
         return restClient.put()
                 .uri("/api/livros/{id}", id)
@@ -54,6 +58,7 @@ public class LivroClient implements ILivroClient {
                 .body(LivroResponse.class);
     }
 
+    @Override
     public void deletarLivro(Long id) {
         restClient.delete()
                 .uri("/api/livros/{id}", id)

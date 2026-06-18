@@ -19,6 +19,7 @@ public class AutorClient implements IAutorClient {
         this.restClient = builder.baseUrl(baseUrl).build();
     }
 
+    @Override
     public List<AutorResponse> listar() {
         return restClient.get()
                 .uri("/api/autores")
@@ -26,6 +27,7 @@ public class AutorClient implements IAutorClient {
                 .body(new ParameterizedTypeReference<>() {});
     }
 
+    @Override
     public AutorResponse autorById(Long id) {
         return restClient.get()
                 .uri("/api/autores/{id}", id)
@@ -33,6 +35,7 @@ public class AutorClient implements IAutorClient {
                 .body(AutorResponse.class);
     }
 
+    @Override
     public AutorResponse criarAutor(AutorForm form) {
         return restClient.post()
                 .uri("/api/autores")
@@ -41,6 +44,7 @@ public class AutorClient implements IAutorClient {
                 .body(AutorResponse.class);
     }
 
+    @Override
     public AutorResponse atualizarAutor(Long id, AutorForm form) {
         return restClient.put()
                 .uri("/api/autores/{id}", id)
@@ -49,6 +53,7 @@ public class AutorClient implements IAutorClient {
                 .body(AutorResponse.class);
     }
 
+    @Override
     public void deletarAutor(Long id) {
         restClient.delete()
                 .uri("/api/autores/{id}", id)
