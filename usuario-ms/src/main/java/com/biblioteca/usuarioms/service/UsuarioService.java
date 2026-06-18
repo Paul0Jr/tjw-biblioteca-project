@@ -1,5 +1,6 @@
 package com.biblioteca.usuarioms.service;
 
+import com.biblioteca.usuarioms.exception.ResourceNotFoundException;
 import com.biblioteca.usuarioms.repository.UsuarioRepository;
 import com.biblioteca.usuarioms.dto.*;
 import com.biblioteca.usuarioms.entity.Usuario;
@@ -7,6 +8,7 @@ import com.biblioteca.usuarioms.entity.Usuario;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UsuarioService implements IUsuarioService {
@@ -17,6 +19,7 @@ public class UsuarioService implements IUsuarioService {
         this.usuarioRepository = usuarioRepository;
     }
 
+    @Transactional
     @Override
     public UsuarioResponse criar(UsuarioRequest request) {
         // 1. Instancia a entidade e popula com os dados que vieram na requisição
@@ -36,19 +39,35 @@ public class UsuarioService implements IUsuarioService {
         );
     }
 
+
     @Override
     public UsuarioResponse buscarPorId(Long id) {
-        UsuarioResponse u = new UsuarioResponse();
-        return u;
-    }
+        return toResponse(obterEntidade(id));}
+
+
 
     @Override
     public List<UsuarioResponse> listar() {
-        UsuarioResponse u = new UsuarioResponse();
-        return List.of(u);
+        return usuarioRepository.findAll().stream().map(this::toResponse).toList();
     }
 
+    @Transactional
     @Override
     public void excluir(Long id) {
+        Usuario usuario = obterEntidade(id);
+        usuarioRepository.delete(usuario);
+    }
+
+    private Usuario obterEntidade(Long id) {
+        return usuarioRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado: " + id));
+    }
+
+    private UsuarioResponse toResponse(Usuario usuario) {
+        return new UsuarioResponse(
+                usuario.getId(),
+                usuario.getNome(),
+                usuario.getEmail()
+        );
     }
 }
