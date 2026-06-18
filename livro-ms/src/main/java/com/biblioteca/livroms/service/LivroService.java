@@ -20,10 +20,12 @@ public class LivroService implements ILivroService {
         this.livroRepository = livroRepository;
     }
 
+    @Override
     public List<LivroResponse> listar() {
         return livroRepository.findAll().stream().map(this::toResponse).toList();
     }
 
+    @Override
     public List<LivroResponse> listarPorDisponibilidade(Boolean disponivel) {
         if (disponivel == null) {
             return listar();
@@ -34,11 +36,13 @@ public class LivroService implements ILivroService {
                 .toList();
     }
 
+    @Override
     public LivroResponse buscarPorId(Long id) {
         return toResponse(obterEntidade(id));
     }
 
     @Transactional
+    @Override
     public LivroResponse criar(LivroRequest request) {
         livroRepository.findByTitulo(request.titulo())
                 .ifPresent(outro -> {
@@ -51,6 +55,7 @@ public class LivroService implements ILivroService {
     }
 
     @Transactional
+    @Override
     public LivroResponse atualizar(Long id, LivroRequest request) {
         Livro livro = obterEntidade(id);
 
@@ -65,6 +70,7 @@ public class LivroService implements ILivroService {
     }
 
     @Transactional
+    @Override
     public void excluir(Long id) {
         Livro livro = obterEntidade(id);
         livroRepository.delete(livro);

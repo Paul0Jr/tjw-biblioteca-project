@@ -20,15 +20,18 @@ public class AutorService implements IAutorService {
         this.autorRepository = autorRepository;
     }
 
+    @Override
     public List<AutorResponse> listar() {
         return autorRepository.findAll().stream().map(this::toResponse).toList();
     }
 
+    @Override
     public AutorResponse buscarPorId(Long id) {
         return toResponse(obterEntidade(id));
     }
 
     @Transactional
+    @Override
     public AutorResponse criar(AutorRequest request) {
         if (autorRepository.existsByNome(request.nome())) {
             throw new BusinessException("Já existe um autor com o nome informado");
@@ -40,6 +43,7 @@ public class AutorService implements IAutorService {
     }
 
     @Transactional
+    @Override
     public AutorResponse atualizar(Long id, AutorRequest request) {
         Autor autor = obterEntidade(id);
 
@@ -54,6 +58,7 @@ public class AutorService implements IAutorService {
     }
 
     @Transactional
+    @Override
     public void excluir(Long id) {
         Autor autor = obterEntidade(id);
         autorRepository.delete(autor);
