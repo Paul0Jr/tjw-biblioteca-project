@@ -4,10 +4,12 @@ import com.biblioteca.frontms.dto.LivroForm;
 import com.biblioteca.frontms.dto.LivroResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
 import java.util.List;
 
+@Service
 public class LivroClient implements ILivroClient {
     private final RestClient restClient;
 

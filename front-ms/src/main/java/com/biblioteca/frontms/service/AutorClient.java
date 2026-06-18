@@ -4,12 +4,12 @@ import com.biblioteca.frontms.dto.AutorForm;
 import com.biblioteca.frontms.dto.AutorResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
 import java.util.List;
 
-@Component
+@Service
 public class AutorClient implements IAutorClient {
 
     private final RestClient restClient;
