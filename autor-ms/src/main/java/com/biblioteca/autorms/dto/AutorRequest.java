@@ -10,6 +10,7 @@ public record AutorRequest(
         @NotBlank(message = "Nacionalidade obrigatória")
         String nacionalidade,
 
+        @jakarta.validation.constraints.NotNull(message = "Ano de nascimento obrigatório")
         @Positive(message = "Ano de nascimento deve ser positivo")
         Integer anoNascimento
 ) {
