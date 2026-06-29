@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layout/base :: layout(~{::section}, 'Detalhes do Livro')}">
+<body>
+<section>
+    <!-- Back Navigation Link -->
+    <div class="mb-4">
+        <a th:href="@{/livros}" class="btn-secondary-custom btn-sm py-1.5 px-3">
+            <i class="bi bi-arrow-left"></i> Voltar para o Catálogo
+        </a>
+    </div>
+
+    <!-- Detail Card -->
+    <div class="glass-card p-4 p-md-5 col-lg-8 mx-auto">
+        <div class="row align-items-center g-4">
+            <!-- Icon/Visual column -->
+            <div class="col-md-4 text-center">
+                <div class="d-inline-flex justify-content-center align-items-center rounded-4 mb-3" 
+                     style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%);
+                            border: 1px solid rgba(255, 255, 255, 0.1); width: 140px; height: 180px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);">
+                    <i class="bi bi-book-half" style="font-size: 4.5rem; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i>
+                </div>
+                <div class="mt-2">
+                    <span th:if="${livro.disponivel}" class="badge-custom badge-sim">
+                        <i class="bi bi-check-circle-fill"></i> Disponível
+                    </span>
+                    <span th:if="${!livro.disponivel}" class="badge-custom badge-nao">
+                        <i class="bi bi-x-circle-fill"></i> Indisponível
+                    </span>
+                </div>
+            </div>
+
+            <!-- Details column -->
+            <div class="col-md-8">
+                <div class="border-bottom border-secondary border-opacity-10 pb-3 mb-4">
+                    <h5 class="text-secondary uppercase fs-7 mb-1" style="letter-spacing: 1.5px;">Informações do Livro</h5>
+                    <h2 class="text-light fw-bold mb-2" th:text="${livro.titulo}">Título do Livro</h2>
+                </div>
+
+                <div class="row g-4">
+                    <!-- Gênero -->
+                    <div class="col-6">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="text-secondary fs-4"><i class="bi bi-tags"></i></div>
+                            <div>
+                                <div class="text-secondary fs-7">Gênero</div>
+                                <div class="fw-semibold text-light" th:text="${livro.genero}">Ficção Científica</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ano de Publicação -->
+                    <div class="col-6">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="text-secondary fs-4"><i class="bi bi-calendar3"></i></div>
+                            <div>
+                                <div class="text-secondary fs-7">Ano de Publicação</div>
+                                <div class="fw-semibold text-light" th:text="${livro.anoPublicacao}">1984</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Autor -->
+                    <div class="col-12 mt-4">
+                        <div class="d-flex align-items-center gap-3 p-3 rounded-3" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04);">
+                            <div class="text-indigo fs-3"><i class="bi bi-person-badge-fill" style="color: #8b5cf6;"></i></div>
+                            <div>
+                                <div class="text-secondary fs-7">Autor Autorizado</div>
+                                <div class="fw-semibold text-light fs-5" 
+                                     th:text="${livro.nomeAutor != null ? livro.nomeAutor : 'Autor removido'}">George Orwell</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card Footer Actions -->
+        <div class="d-flex justify-content-end gap-3 mt-5 pt-4 border-top border-secondary border-opacity-10">
+            <a th:href="@{/livros}" class="btn-secondary-custom">
+                <i class="bi bi-arrow-left"></i> Voltar à Lista
+            </a>
+            <a th:href="@{/livros/{id}/editar(id=${livro.id})}" class="btn-premium" sec:authorize="isAuthenticated()">
+                <i class="bi bi-pencil-square"></i> Editar Livro
+            </a>
+        </div>
+    </div>
+</section>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layout/base :: layout(~{::section}, 'Gestão de Autores')}">
+<body>
+<section>
+    <!-- Flash Alerts -->
+    <div th:if="${sucesso}" class="alert-custom alert-success-custom">
+        <i class="bi bi-check-circle-fill fs-5"></i>
+        <span th:text="${sucesso}">Sucesso</span>
+    </div>
+    <div th:if="${erro}" class="alert-custom alert-danger-custom">
+        <i class="bi bi-exclamation-triangle-fill fs-5"></i>
+        <span th:text="${erro}">Erro</span>
+    </div>
+
+    <!-- Page Header Card -->
+    <div class="glass-card p-4 mb-4 d-flex justify-content-between align-items-center flex-wrap gap-3">
+        <div>
+            <h2 class="mb-1 text-light">
+                <i class="bi bi-people-fill me-2" style="color: #6366f1;"></i>Gestão de Autores
+            </h2>
+            <p class="text-secondary mb-0">Visualize, crie, edite ou remova autores cadastrados no sistema.</p>
+        </div>
+        <div>
+            <a th:href="@{/autores/novo}" class="btn-premium" sec:authorize="isAuthenticated()">
+                <i class="bi bi-person-plus-fill"></i> Novo Autor
+            </a>
+        </div>
+    </div>
+
+    <!-- Authors Table Container -->
+    <div class="table-container">
+        <table class="table table-custom table-hover">
+            <thead>
+                <tr>
+                    <th scope="col" style="width: 80px;">ID</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Nacionalidade</th>
+                    <th scope="col">Ano de Nascimento</th>
+                    <th scope="col" class="text-end" style="width: 240px;">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="autor : ${autores}">
+                    <td class="font-monospace text-secondary" th:text="${autor.id}">1</td>
+                    <td class="fw-semibold text-light" th:text="${autor.nome}">J. R. R. Tolkien</td>
+                    <td class="text-secondary" th:text="${autor.nacionalidade}">Sul-Africano</td>
+                    <td class="text-secondary" th:text="${autor.anoNascimento}">1892</td>
+                    <td class="text-end">
+                        <div class="d-flex justify-content-end gap-2">
+                            <a th:href="@{/autores/{id}/editar(id=${autor.id})}" class="btn-secondary-custom btn-sm py-1.5 px-3" sec:authorize="isAuthenticated()">
+                                <i class="bi bi-pencil-square"></i> Editar
+                            </a>
+                            <form th:action="@{/autores/{id}/excluir(id=${autor.id})}" method="post" style="display:inline;" sec:authorize="isAuthenticated()">
+                                <button type="submit" class="btn-danger-custom btn-sm py-1.5 px-3"
+                                        th:data-confirm="|Tem certeza que deseja excluir o autor '${autor.nome}'?|"
+                                        onclick="return confirm(this.getAttribute('data-confirm'));">
+                                    <i class="bi bi-trash3-fill"></i> Excluir
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(autores)}">
+                    <td colspan="5" class="text-center py-5 text-secondary">
+                        <i class="bi bi-people fs-1 d-block mb-3 opacity-50"></i>
+                        Nenhum autor encontrado.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+</body>
+</html>

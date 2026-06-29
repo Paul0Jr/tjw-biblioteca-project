@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layout/base :: layout(~{::section}, 'Catálogo de Livros')}">
+<body>
+<section>
+    <!-- Flash Alerts -->
+    <div th:if="${sucesso}" class="alert-custom alert-success-custom">
+        <i class="bi bi-check-circle-fill fs-5"></i>
+        <span th:text="${sucesso}">Sucesso</span>
+    </div>
+    <div th:if="${erro}" class="alert-custom alert-danger-custom">
+        <i class="bi bi-exclamation-triangle-fill fs-5"></i>
+        <span th:text="${erro}">Erro</span>
+    </div>
+
+    <!-- Page Header Card -->
+    <div class="glass-card p-4 mb-4 d-flex justify-content-between align-items-center flex-wrap gap-3">
+        <div>
+            <h2 class="mb-1 text-light">
+                <i class="bi bi-journal-bookmark-fill me-2" style="color: #6366f1;"></i>Catálogo de Livros
+            </h2>
+            <p class="text-secondary mb-0">Explore e gerencie o acervo literário de nossa biblioteca.</p>
+        </div>
+        <div>
+            <a th:href="@{/livros/novo}" class="btn-premium" sec:authorize="isAuthenticated()">
+                <i class="bi bi-journal-plus"></i> Novo Livro
+            </a>
+        </div>
+    </div>
+
+    <!-- Filter and Controls Row -->
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+        <!-- Availability Filter -->
+        <div class="btn-filter-group">
+            <a th:href="@{/livros}" 
+               th:classappend="${disponivelSelecionado == null} ? 'active' : ''"
+               class="btn-filter">
+                <i class="bi bi-collection-fill me-1.5"></i> Todos
+            </a>
+            <a th:href="@{/livros(disponivel=true)}" 
+               th:classappend="${disponivelSelecionado != null && disponivelSelecionado} ? 'active' : ''"
+               class="btn-filter">
+                <i class="bi bi-check-circle-fill me-1.5 text-success-text"></i> Disponíveis
+            </a>
+            <a th:href="@{/livros(disponivel=false)}" 
+               th:classappend="${disponivelSelecionado != null && !disponivelSelecionado} ? 'active' : ''"
+               class="btn-filter">
+                <i class="bi bi-x-circle-fill me-1.5 text-danger-text"></i> Indisponíveis
+            </a>
+        </div>
+        
+        <div class="text-secondary fs-7">
+            Total: <span class="fw-bold text-light" th:text="${#lists.size(livros)}">0</span> livros exibidos
+        </div>
+    </div>
+
+    <!-- Books Table Container -->
+    <div class="table-container">
+        <table class="table table-custom table-hover">
+            <thead>
+                <tr>
+                    <th scope="col" style="width: 80px;">ID</th>
+                    <th scope="col">Título</th>
+                    <th scope="col">Gênero</th>
+                    <th scope="col">Ano</th>
+                    <th scope="col">Autor</th>
+                    <th scope="col">Disponível</th>
+                    <th scope="col" class="text-end" style="width: 320px;">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="livro : ${livros}">
+                    <td class="font-monospace text-secondary" th:text="${livro.id}">1</td>
+                    <td class="fw-semibold text-light" th:text="${livro.titulo}">O Senhor dos Anéis</td>
+                    <td class="text-secondary" th:text="${livro.genero}">Fantasia</td>
+                    <td class="text-secondary" th:text="${livro.anoPublicacao}">1954</td>
+                    <td class="text-secondary fw-medium">
+                        <span th:text="${livro.nomeAutor != null ? livro.nomeAutor : 'Autor removido'}">J. R. R. Tolkien</span>
+                    </td>
+                    <td>
+                        <span th:if="${livro.disponivel}" class="badge-custom badge-sim">
+                            <i class="bi bi-check-circle-fill"></i> Sim
+                        </span>
+                        <span th:if="${!livro.disponivel}" class="badge-custom badge-nao">
+                            <i class="bi bi-x-circle-fill"></i> Não
+                        </span>
+                    </td>
+                    <td class="text-end">
+                        <div class="d-flex justify-content-end gap-2">
+                            <a th:href="@{/livros/{id}(id=${livro.id})}" class="btn-secondary-custom btn-sm py-1.5 px-3">
+                                <i class="bi bi-eye-fill"></i> Detalhes
+                            </a>
+                            <a th:href="@{/livros/{id}/editar(id=${livro.id})}" class="btn-secondary-custom btn-sm py-1.5 px-3" sec:authorize="isAuthenticated()">
+                                <i class="bi bi-pencil-square"></i> Editar
+                            </a>
+                            <form th:action="@{/livros/{id}/excluir(id=${livro.id})}" method="post" style="display:inline;" sec:authorize="isAuthenticated()">
+                                <button type="submit" class="btn-danger-custom btn-sm py-1.5 px-3"
+                                        th:data-confirm="|Tem certeza que deseja excluir o livro '${livro.titulo}'?|"
+                                        onclick="return confirm(this.getAttribute('data-confirm'));">
+                                    <i class="bi bi-trash3-fill"></i> Excluir
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(livros)}">
+                    <td colspan="7" class="text-center py-5 text-secondary">
+                        <i class="bi bi-journal-x fs-1 d-block mb-3 opacity-50"></i>
+                        Nenhum livro encontrado para este filtro.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+</body>
+</html>

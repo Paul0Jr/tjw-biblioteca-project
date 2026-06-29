@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: layout(~{::section}, 'Entrar')}">
+<body>
+<section>
+    <!-- Login Card -->
+    <div class="glass-card p-4 p-md-5 col-md-8 col-lg-5 mx-auto" style="margin-top: 5vh; margin-bottom: 5vh;">
+        <!-- Header / Icon -->
+        <div class="text-center mb-4">
+            <div class="d-inline-flex justify-content-center align-items-center rounded-circle mb-3"
+                 style="background: var(--accent-gradient); width: 64px; height: 64px;">
+                <i class="bi bi-shield-lock-fill text-white fs-3"></i>
+            </div>
+            <h2 class="text-light fw-bold mb-1">Acesso ao Sistema</h2>
+            <p class="text-secondary mb-0">Identifique-se para acessar as ferramentas de bibliotecário.</p>
+        </div>
+
+        <!-- Alert Messages -->
+        <div th:if="${param.error}" class="alert-custom alert-danger-custom mb-4">
+            <i class="bi bi-exclamation-triangle-fill fs-5"></i>
+            <span>Usuário ou senha inválidos.</span>
+        </div>
+        <div th:if="${param.logout}" class="alert-custom alert-success-custom mb-4">
+            <i class="bi bi-check-circle-fill fs-5"></i>
+            <span>Você saiu do sistema com sucesso.</span>
+        </div>
+
+        <!-- Login Form -->
+        <form th:action="@{/login}" method="post" novalidate>
+            <!-- Username Input -->
+            <div class="mb-4">
+                <label for="username" class="form-label-custom">Usuário</label>
+                <input type="text" id="username" name="username" 
+                       class="form-control form-control-custom" 
+                       placeholder="Digite seu usuário ou e-mail" required autocomplete="username" />
+            </div>
+
+            <!-- Password Input -->
+            <div class="mb-4">
+                <label for="password" class="form-label-custom">Senha</label>
+                <input type="password" id="password" name="password" 
+                       class="form-control form-control-custom" 
+                       placeholder="Digite sua senha" required autocomplete="current-password" />
+            </div>
+
+            <!-- Submit Button -->
+            <div class="mt-5">
+                <button type="submit" class="btn-premium w-100 py-2.5 fs-6 fw-semibold" style="border-radius: 8px;">
+                    Entrar <i class="bi bi-box-arrow-in-right ms-2"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+</section>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: layout(~{::section}, 'Serviço Indisponível')}">
+<body>
+<section>
+    <div class="glass-card p-4 p-md-5 col-lg-8 mx-auto text-center">
+        <!-- Animated warning icon -->
+        <div class="d-inline-flex justify-content-center align-items-center rounded-circle mb-4" 
+             style="background: rgba(239, 68, 68, 0.15); border: 2px solid rgba(239, 68, 68, 0.3); width: 80px; height: 80px;">
+            <i class="bi bi-wifi-off text-danger-text" style="font-size: 2.5rem; animation: pulse 2s infinite;"></i>
+        </div>
+
+        <!-- Error messages -->
+        <h2 class="text-light fw-bold mb-3">Conexão Interrompida</h2>
+        <p class="text-danger-text fw-medium fs-5 mb-4" th:text="${erro}">
+            O serviço está temporariamente indisponível.
+        </p>
+        
+        <p class="text-secondary mx-auto mb-4" style="max-width: 500px;">
+            Não foi possível estabelecer contato com os microsserviços da biblioteca. Por favor, certifique-se de que os serviços de Autores e Livros estão em execução.
+        </p>
+
+        <!-- Debug details block -->
+        <div class="text-start mx-auto mb-5" style="max-width: 600px;" th:if="${detalhes}">
+            <div class="card bg-black bg-opacity-30 border border-secondary border-opacity-10 rounded-3">
+                <div class="card-header bg-black bg-opacity-20 border-bottom border-secondary border-opacity-10 py-2 px-3 d-flex justify-content-between align-items-center">
+                    <span class="font-monospace text-secondary fs-8"><i class="bi bi-bug-fill me-1"></i> Detalhes Técnicos</span>
+                    <button class="btn btn-link text-secondary p-0 fs-8 text-decoration-none" type="button" 
+                            onclick="const det = document.getElementById('error-details'); det.style.display = det.style.display === 'none' ? 'block' : 'none';">
+                        Alternar Exibição
+                    </button>
+                </div>
+                <div class="card-body p-3 font-monospace fs-8 text-secondary" id="error-details" style="display: none; white-space: pre-wrap;" th:text="${detalhes}">
+                    org.springframework.web.client.ResourceAccessException: I/O error on GET request...
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Links -->
+        <div class="d-flex justify-content-center gap-3">
+            <a th:href="@{/livros}" class="btn-premium">
+                <i class="bi bi-arrow-clockwise"></i> Tentar Novamente
+            </a>
+            <a th:href="@{/autores}" class="btn-secondary-custom">
+                <i class="bi bi-people-fill"></i> Ir para Autores
+            </a>
+        </div>
+    </div>
+
+    <!-- Style for the icon animation -->
+    <style>
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 15px rgba(239, 68, 68, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+            }
+        }
+    </style>
+</section>
+</body>
+</html>
