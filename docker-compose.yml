@@ -33,23 +33,6 @@ services:
       timeout: 5s
       retries: 5
 
-  postgres-usuarios:
-    image: postgres:15-alpine
-    container_name: postgres-usuarios
-    environment:
-      POSTGRES_DB: db_usuarios
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-    ports:
-      - "5435:5432"
-    volumes:
-      - postgres_data_usuarios:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d db_usuarios"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-
   autor-ms:
     build:
       context: ./autor-ms
@@ -98,30 +81,6 @@ services:
           ignore:
             - ./livro-ms/target/
 
-  usuario-ms:
-    build:
-      context: ./usuario-ms
-      dockerfile: Dockerfile
-    container_name: usuario-ms
-    ports:
-      - "8083:8083"
-    environment:
-      - SERVER_PORT=8083
-      - DB_HOST=postgres-usuarios
-      - DB_PORT=5432
-      - DB_NAME=db_usuarios
-      - DB_USER=postgres
-      - DB_PASSWORD=postgres
-    depends_on:
-      postgres-usuarios:
-        condition: service_healthy
-    develop:
-      watch:
-        - action: rebuild
-          path: ./usuario-ms
-          ignore:
-            - ./usuario-ms/target/
-
   front-ms:
     build:
       context: ./front-ms
@@ -154,9 +113,7 @@ services:
       - front-ms
       - autor-ms
       - livro-ms
-      - usuario-ms
 
 volumes:
   postgres_data_autores:
   postgres_data_livros:
-  postgres_data_usuarios:
