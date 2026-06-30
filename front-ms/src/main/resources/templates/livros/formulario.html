@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org"
       th:replace="~{layout/base :: layout(~{::section}, ${livroForm.id == null} ? 'Novo Livro' : 'Editar Livro')}">
@@ -95,7 +96,7 @@
                     <div class="form-check">
                         <input class="form-check-input" type="radio" id="disponivelSim" th:value="true" th:field="*{disponivel}" style="cursor: pointer;" />
                         <label class="form-check-label text-light" for="disponivelSim" style="cursor: pointer;">
-                            <span class="badge-custom badge-sim py-0.5 px-2.5 fs-7"><i class="bi bi-check-circle-fill"></i> Sim, disponível</span>
+                            <span class="badge-custom badge-sim py-0.5 px-2.5 fs-7"><i class="bi bi-check-circle-fill"></i> Dgisponível</span>
                         </label>
                     </div>
                     <div class="form-check">
