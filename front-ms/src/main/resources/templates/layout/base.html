@@ -30,17 +30,16 @@
                 <ul class="navbar-nav ms-auto align-items-center">
                     <li class="nav-item">
                         <a id="nav-livros" class="nav-link nav-link-custom" th:href="@{/livros}">
-                            <i class="bi bi-journal-bookmark-fill me-1"></i> Livros
+                            Livros
                         </a>
                     </li>
                     <li class="nav-item me-2">
                         <a id="nav-autores" class="nav-link nav-link-custom" th:href="@{/autores}">
-                            <i class="bi bi-people-fill me-1"></i> Autores
+                            Autores
                         </a>
                     </li>
                     <li class="nav-item d-flex align-items-center" sec:authorize="isAuthenticated()">
                         <span class="navbar-text me-3 text-light" style="font-size: 0.9rem;">
-                            <i class="bi bi-person-circle me-1" style="color: #6366f1;"></i>
                             <span sec:authentication="name">User</span>
                         </span>
                         <form th:action="@{/logout}" method="post" class="m-0">

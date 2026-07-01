@@ -17,9 +17,10 @@
     <div class="glass-card p-4 mb-4 d-flex justify-content-between align-items-center flex-wrap gap-3">
         <div>
             <h2 class="mb-1 text-light">
-                <i class="bi bi-journal-bookmark-fill me-2" style="color: #6366f1;"></i>Catálogo de Livros
+                Catálogo de Livros
             </h2>
-            <p class="text-secondary mb-0">Explore e gerencie o acervo literário de nossa biblioteca.</p>
+            <p class="text-secondary mb-0" sec:authorize="isAuthenticated()">Explore e gerencie o acervo literário com privilégios de bibliotecário.</p>
+            <p class="text-secondary mb-0" sec:authorize="!isAuthenticated()">Explore o acervo literário disponível em nossa biblioteca.</p>
         </div>
         <div>
             <a th:href="@{/livros/novo}" class="btn-premium" sec:authorize="isAuthenticated()">
@@ -35,22 +36,22 @@
             <a th:href="@{/livros}" 
                th:classappend="${disponivelSelecionado == null} ? 'active' : ''"
                class="btn-filter">
-                <i class="bi bi-collection-fill me-1.5"></i> Todos
+                Todos
             </a>
             <a th:href="@{/livros(disponivel=true)}" 
                th:classappend="${disponivelSelecionado != null && disponivelSelecionado} ? 'active' : ''"
                class="btn-filter">
-                <i class="bi bi-check-circle-fill me-1.5 text-success-text"></i> Disponíveis
+                Disponíveis
             </a>
             <a th:href="@{/livros(disponivel=false)}" 
                th:classappend="${disponivelSelecionado != null && !disponivelSelecionado} ? 'active' : ''"
                class="btn-filter">
-                <i class="bi bi-x-circle-fill me-1.5 text-danger-text"></i> Indisponíveis
+                Indisponíveis
             </a>
         </div>
         
         <div class="text-secondary fs-7">
-            Total: <span class="fw-bold text-light" th:text="${#lists.size(livros)}">0</span> livros exibidos
+            Total: <span class="fw-bold text-light" th:text="${#lists.size(livros)}">0</span> livros
         </div>
     </div>
 
