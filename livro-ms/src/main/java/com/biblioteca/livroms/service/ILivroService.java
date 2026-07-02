@@ -10,5 +10,5 @@ public interface ILivroService {
     void excluir(Long id);
     LivroResponse buscarPorId(Long id);
     List<LivroResponse> listar();
-    List<LivroResponse> listarPorDisponibilidade(Boolean disponivel);
+    List<LivroResponse> listarPorFiltros(Boolean disponivel, Long autorId);
 }

@@ -11,4 +11,6 @@ public interface LivroRepository extends JpaRepository<Livro, Long> {
     boolean existsById(Long id);
     Optional<Livro> findByTitulo(String titulo);
     List<Livro> findByDisponivel(Boolean disponivel);
+    List<Livro> findByAutorId(Long autorId);
+    List<Livro> findByAutorIdAndDisponivel(Long autorId, Boolean disponivel);
 }
