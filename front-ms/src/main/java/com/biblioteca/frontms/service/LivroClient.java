@@ -19,12 +19,15 @@ public class LivroClient implements ILivroClient {
     }
 
     @Override
-    public List<LivroResponse> listar(Boolean disponivel) {
+    public List<LivroResponse> listar(Boolean disponivel, Long autorId) {
         return restClient.get()
                 .uri(uriBuilder -> {
                     var builder = uriBuilder.path("/api/livros");
                     if (disponivel != null) {
                         builder.queryParam("disponivel", disponivel);
+                    }
+                    if (autorId != null) {
+                        builder.queryParam("autorId", autorId);
                     }
                     return builder.build();
                 })
