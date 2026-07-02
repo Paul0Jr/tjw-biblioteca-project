@@ -32,9 +32,11 @@ public class LivroController {
 
 
     @GetMapping
-    @Operation(summary = "Listar livros", description = "Retorna uma lista de todos os livros cadastrados, com opção de filtrar por disponibilidade")
-    public List<LivroResponse> listar(@RequestParam(required = false) Boolean disponivel) {
-        return livroService.listarPorDisponibilidade(disponivel);
+    @Operation(summary = "Listar livros", description = "Retorna uma lista de todos os livros cadastrados, com opção de filtrar por disponibilidade ou autor")
+    public List<LivroResponse> listar(
+            @RequestParam(required = false) Boolean disponivel,
+            @RequestParam(required = false) Long autorId) {
+        return livroService.listarPorFiltros(disponivel, autorId);
     }
 
 

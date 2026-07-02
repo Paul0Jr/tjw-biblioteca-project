@@ -29,21 +29,32 @@
         </div>
     </div>
 
+    <!-- Active Filters Alert -->
+    <div th:if="${autorFiltrado != null}" class="alert-custom d-flex justify-content-between align-items-center mb-4 p-3 rounded-3" style="background: rgba(79, 70, 229, 0.05); border: 1px solid rgba(79, 70, 229, 0.15);">
+        <span class="text-secondary">
+            <i class="bi bi-funnel-fill text-primary me-2"></i>
+            Filtrando livros do autor: <strong class="text-light" th:text="${autorFiltrado.nome}">J. R. R. Tolkien</strong>
+        </span>
+        <a th:href="@{/livros(disponivel=${disponivelSelecionado})}" class="btn-secondary-custom btn-sm py-1 px-3" style="border-radius: 8px;">
+            <i class="bi bi-x-lg"></i> Limpar Filtro
+        </a>
+    </div>
+
     <!-- Filter and Controls Row -->
     <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
         <!-- Availability Filter -->
         <div class="btn-filter-group">
-            <a th:href="@{/livros}" 
+            <a th:href="${autorIdSelecionado != null} ? @{/livros(autorId=${autorIdSelecionado})} : @{/livros}" 
                th:classappend="${disponivelSelecionado == null} ? 'active' : ''"
                class="btn-filter">
                 Todos
             </a>
-            <a th:href="@{/livros(disponivel=true)}" 
+            <a th:href="${autorIdSelecionado != null} ? @{/livros(disponivel=true, autorId=${autorIdSelecionado})} : @{/livros(disponivel=true)}" 
                th:classappend="${disponivelSelecionado != null && disponivelSelecionado} ? 'active' : ''"
                class="btn-filter">
                 Disponíveis
             </a>
-            <a th:href="@{/livros(disponivel=false)}" 
+            <a th:href="${autorIdSelecionado != null} ? @{/livros(disponivel=false, autorId=${autorIdSelecionado})} : @{/livros(disponivel=false)}" 
                th:classappend="${disponivelSelecionado != null && !disponivelSelecionado} ? 'active' : ''"
                class="btn-filter">
                 Indisponíveis

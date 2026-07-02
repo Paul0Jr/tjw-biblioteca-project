@@ -26,14 +26,24 @@ public class LivroService implements ILivroService {
     }
 
     @Override
-    public List<LivroResponse> listarPorDisponibilidade(Boolean disponivel) {
-        if (disponivel == null) {
-            return listar();
+    public List<LivroResponse> listarPorFiltros(Boolean disponivel, Long autorId) {
+        if (autorId != null && disponivel != null) {
+            return livroRepository.findByAutorIdAndDisponivel(autorId, disponivel)
+                    .stream()
+                    .map(this::toResponse)
+                    .toList();
+        } else if (autorId != null) {
+            return livroRepository.findByAutorId(autorId)
+                    .stream()
+                    .map(this::toResponse)
+                    .toList();
+        } else if (disponivel != null) {
+            return livroRepository.findByDisponivel(disponivel)
+                    .stream()
+                    .map(this::toResponse)
+                    .toList();
         }
-        return livroRepository.findByDisponivel(disponivel)
-                .stream()
-                .map(this::toResponse)
-                .toList();
+        return listar();
     }
 
     @Override

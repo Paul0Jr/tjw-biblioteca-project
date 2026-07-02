@@ -30,8 +30,35 @@ public class LivroController {
     }
 
     @GetMapping
-    public String listar(@RequestParam(required = false) Boolean disponivel, Model model) {
-        List<LivroExibicao> livros = livroClient.listar(disponivel).stream()
+    public String listar(
+            @RequestParam(required = false) Boolean disponivel,
+            @RequestParam(required = false) Long autorId,
+            Model model) {
+        
+        List<com.biblioteca.frontms.dto.LivroResponse> livrosResponse = livroClient.listar(disponivel, autorId);
+        
+        // Fetch author names in bulk (or specific author) to avoid N+1 query problem
+        java.util.Map<Long, String> autorIdToNomeMap = new java.util.HashMap<>();
+        
+        if (autorId != null) {
+            try {
+                var autor = autorClient.autorById(autorId);
+                if (autor != null) {
+                    autorIdToNomeMap.put(autorId, autor.nome());
+                    model.addAttribute("autorFiltrado", autor);
+                }
+            } catch (Exception e) {
+                autorIdToNomeMap.put(autorId, "Autor removido");
+            }
+        } else {
+            try {
+                autorClient.listar().forEach(a -> autorIdToNomeMap.put(a.id(), a.nome()));
+            } catch (Exception e) {
+                // Keep empty if service is down
+            }
+        }
+
+        List<LivroExibicao> livros = livrosResponse.stream()
                 .map(l -> new LivroExibicao(
                         l.id(),
                         l.titulo(),
@@ -39,12 +66,13 @@ public class LivroController {
                         l.anoPublicacao(),
                         l.disponivel(),
                         l.autorId(),
-                        obterNomeAutor(l.autorId())
+                        autorIdToNomeMap.getOrDefault(l.autorId(), "Autor removido")
                 ))
                 .toList();
 
         model.addAttribute("livros", livros);
         model.addAttribute("disponivelSelecionado", disponivel);
+        model.addAttribute("autorIdSelecionado", autorId);
         return "livros/lista";
     }
 
